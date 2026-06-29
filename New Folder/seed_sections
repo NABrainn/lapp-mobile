@@ -1,0 +1,5 @@
+--     INSERT INTO sections (title) VALUES
+--       ('Beginner Stories'),
+--       ('Daily Life'),
+--       ('Travel');
+SELECT * FROM sections
