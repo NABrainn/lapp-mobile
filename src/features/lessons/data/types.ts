@@ -20,7 +20,6 @@ type LessonTokenBase = {
   familiarity: Familiarity;
   isPressable: boolean;
   isPersisted: boolean;
-  isSelected: boolean;
 };
 
 export type Word = LessonTokenBase & {

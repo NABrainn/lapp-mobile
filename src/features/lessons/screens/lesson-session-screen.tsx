@@ -87,7 +87,7 @@ export default function LessonSessionScreen() {
                       vm.handleTokenPress(
                         tokenIndex,
                         token.isPressable,
-                        token.isSelected,
+                        vm.isTokenSelected(tokenIndex),
                       )
                     }
                     key={tokenIndex}
@@ -98,7 +98,7 @@ export default function LessonSessionScreen() {
                     isPaintedPhrasePart={vm.isPaintedPhrasePart(tokenIndex)}
                     isPressable={token.isPressable}
                     isPersisted={token.isPersisted}
-                    isSelected={token.isSelected}
+                    isSelected={vm.isTokenSelected(tokenIndex)}
                   />
                 )}
               />

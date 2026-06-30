@@ -10,7 +10,7 @@ type LessonSessionLocalSearchParams = {
 };
 
 type TokenStore = {
-  selectedTokenId: number;
+  selectedTokenId: number | undefined;
 };
 
 type PhraseModeStore = {
@@ -19,6 +19,10 @@ type PhraseModeStore = {
   startId: number | undefined;
   endId: number | undefined;
 };
+
+const tokenStore = createStore<TokenStore>({
+  selectedTokenId: undefined,
+});
 
 const phraseModeStore = createStore<PhraseModeStore>({
   isPhraseModeEnabled: false,
@@ -77,49 +81,15 @@ export default function useLessonSessionViewModel() {
     queryFn: () => findLessonById(lessonSessionId),
   });
 
-  const selectToken = async (id: number) => {
-    if (!lessonData?.id) {
-      return;
-    }
+  const selectedTokenId = useSelector(
+    tokenStore,
+    (state) => state["selectedTokenId"],
+  );
 
-    let counter = 0;
+  const selectToken = (id: number) =>
+    tokenStore.setState((state) => ({ ...state, ["selectedTokenId"]: id }));
 
-    const paragraphs = lessonData.content.paragraphs ?? [];
-
-    const updatedParagraphs = paragraphs.map((paragraph) => ({
-      ...paragraph,
-      tokens: paragraph.tokens.map((token) => {
-        const isSelected = counter === id;
-
-        counter += 1;
-
-        return {
-          ...token,
-          isSelected,
-        };
-      }),
-    }));
-
-    const content = JSON.stringify({
-      ...lessonData.content,
-      paragraphs: updatedParagraphs,
-    });
-
-    const SQL = `
-      UPDATE lessons
-      SET content = ?
-      WHERE id = ?
-    `;
-
-    await db.runAsync(SQL, [content, lessonData.id]);
-  };
-
-  const selectTokenMutation = useMutation({
-    mutationFn: selectToken,
-    onSuccess: () => {
-      refetch();
-    },
-  });
+  const isTokenSelected = (id: number) => selectedTokenId === id;
 
   const isPhraseModeEnabled = useSelector(
     phraseModeStore,
@@ -191,7 +161,7 @@ export default function useLessonSessionViewModel() {
     }
 
     if (!isPhraseModeEnabled) {
-      selectTokenMutation.mutate(id);
+      selectToken(id);
       return;
     }
 
@@ -214,5 +184,6 @@ export default function useLessonSessionViewModel() {
     isPhraseModeEnabled,
     togglePhraseMode,
     isPaintedPhrasePart,
+    isTokenSelected,
   };
 }
