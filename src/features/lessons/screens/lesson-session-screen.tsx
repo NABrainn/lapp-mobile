@@ -91,14 +91,15 @@ export default function LessonSessionScreen() {
                       )
                     }
                     key={tokenIndex}
-                    kind={token.inputText.length <= 1 ? "word" : "phrase"}
+                    kind={token.kind}
                     inputText={token.inputText}
                     outputText={token.outputText}
                     familiarity={token.familiarity}
-                    isPaintedPhrasePart={vm.isPaintedPhrasePart(tokenIndex)}
+                    isPaintedPhrasePart={token.isPaintedPhrasePart}
                     isPressable={token.isPressable}
                     isPersisted={token.isPersisted}
                     isSelected={token.isSelected}
+                    shouldHighlightSelected={vm.shouldHighlightSelected}
                   />
                 )}
               />

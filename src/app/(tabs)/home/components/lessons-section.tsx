@@ -2,7 +2,7 @@ import { SPACING, VARIANT } from "@/core/constants/tokens";
 import { Link } from "expo-router";
 import { View, Text, FlatList } from "react-native";
 import LessonCard from "./lesson-card";
-import { LessonSection } from "@/features/lessons/data/types";
+import { LessonSection } from "@/features/lessons/data/lesson-session/lesson-session-types";
 
 type LessonsSectionProps = {
   section: LessonSection;
