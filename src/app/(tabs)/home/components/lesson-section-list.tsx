@@ -1,4 +1,4 @@
-import { LessonSection } from "@/features/lessons/data/types";
+import { LessonSection } from "@/features/lessons/data/lesson-session/lesson-session-types";
 import { FlatList, StyleSheet, View } from "react-native";
 import LessonsSection from "./lessons-section";
 import { SPACING } from "@/core/constants/tokens";

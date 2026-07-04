@@ -87,18 +87,19 @@ export default function LessonSessionScreen() {
                       vm.handleTokenPress(
                         tokenIndex,
                         token.isPressable,
-                        vm.isTokenSelected(tokenIndex),
+                        token.isSelected,
                       )
                     }
                     key={tokenIndex}
-                    kind={token.inputText.length <= 1 ? "word" : "phrase"}
+                    kind={token.kind}
                     inputText={token.inputText}
                     outputText={token.outputText}
                     familiarity={token.familiarity}
-                    isPaintedPhrasePart={vm.isPaintedPhrasePart(tokenIndex)}
+                    isPaintedPhrasePart={token.isPaintedPhrasePart}
                     isPressable={token.isPressable}
                     isPersisted={token.isPersisted}
-                    isSelected={vm.isTokenSelected(tokenIndex)}
+                    isSelected={token.isSelected}
+                    shouldHighlightSelected={vm.shouldHighlightSelected}
                   />
                 )}
               />

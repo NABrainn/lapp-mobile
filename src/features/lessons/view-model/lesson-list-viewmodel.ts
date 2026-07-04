@@ -1,5 +1,8 @@
 import { SQLiteDatabase, useSQLiteContext } from "expo-sqlite";
-import { LessonCard, LessonSection } from "../data/types";
+import {
+  LessonCard,
+  LessonSection,
+} from "../data/lesson-session/lesson-session-types";
 import { useQuery } from "@tanstack/react-query";
 
 export default function useLessonListViewModel() {
