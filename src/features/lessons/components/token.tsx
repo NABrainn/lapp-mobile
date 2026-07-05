@@ -16,7 +16,12 @@ const computeTokenWrapperStyle = (
   kind: "word" | "phrase",
   familiarity: Familiarity,
 ): ViewStyle => {
-  const computeBorderWidth = () => (kind === "phrase" ? 1 : 0);
+  const computeBorderWidth = () => {
+    if (kind === "phrase" || isPaintedPhrasePart) {
+      return 1;
+    }
+    return 0;
+  };
   const computeBackgroundColor = () => {
     if (isSelected && shouldHighlightSelected) {
       return "hsl(120, 60%, 50%)";
@@ -45,7 +50,7 @@ const computeTokenWrapperStyle = (
         return "white";
     }
   };
-  const computeBorderColor = () => {
+  const computeBorderColor = (isSelected: boolean, kind: "word" | "phrase") => {
     if (isSelected && shouldHighlightSelected) {
       return "darkgreen";
     }
@@ -57,11 +62,44 @@ const computeTokenWrapperStyle = (
 
   const borderWidth = computeBorderWidth();
   const backgroundColor = computeBackgroundColor();
-  const borderColor = computeBorderColor();
+  const borderColor = computeBorderColor(isSelected, kind);
   return {
     borderWidth,
     backgroundColor,
     borderColor,
+  };
+};
+
+const computeTokenWordStyle = (
+  isSelected: boolean,
+  kind: "word" | "phrase",
+  isPaintedPhrasePart: boolean,
+) => {
+  const computeBorderWidth = (
+    kind: "word" | "phrase",
+    isPaintedPhrasePart: boolean,
+  ) => {
+    if (isPaintedPhrasePart) {
+      return 0;
+    }
+    if (kind === "phrase") {
+      return 0;
+    }
+    return 1;
+  };
+
+  const computeBorderColor = (isSelected: boolean) => {
+    if (isSelected) {
+      return "darkgreen";
+    }
+    return "white";
+  };
+  const borderWidth = computeBorderWidth(kind, isPaintedPhrasePart);
+  const borderColor = computeBorderColor(isSelected);
+
+  return {
+    borderWidth: borderWidth,
+    borderColor: borderColor,
   };
 };
 
@@ -102,10 +140,11 @@ export default function Token({
     familiarity,
   );
 
-  const wordWrapperStyle: ViewStyle = {
-    borderWidth: kind === "phrase" ? 0 : 1,
-    borderColor: isSelected ? "darkgreen" : "white",
-  };
+  const wordWrapperStyle = computeTokenWordStyle(
+    isSelected,
+    kind,
+    isPaintedPhrasePart,
+  );
 
   const textStyle: TextStyle = {
     color: isSelected ? "white" : "black",
@@ -133,7 +172,6 @@ const styles = StyleSheet.create({
     borderColor: "white",
     flexDirection: "row",
     marginBottom: 2,
-    marginRight: 1,
     gap: 2,
   },
 

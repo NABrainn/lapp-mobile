@@ -72,7 +72,6 @@ export default function LessonSessionScreen() {
   const Content = () => (
     <View>
       <Text style={lessonComponentStyles.title}>{vm.lessonData?.title}</Text>
-
       <View>
         <For
           items={vm.lessonData?.content.paragraphs ?? []}

@@ -22,8 +22,8 @@ type LessonSessionLocalSearchParams = {
 export default function useLessonSessionViewModel() {
   const router: ImperativeRouter = useRouter();
   const db: SQLiteDatabase = useSQLiteContext();
-
   const params = useLocalSearchParams<LessonSessionLocalSearchParams>();
+
   const lessonSessionId: string = params["lesson-session-id"];
 
   const selectedTokenId = useSelector(
@@ -41,12 +41,13 @@ export default function useLessonSessionViewModel() {
     (state) => state.isPaintingPhrase,
   );
 
-  const startId = useSelector(phraseModeStore, (state) => state.startId);
-  const endId = useSelector(phraseModeStore, (state) => state.endId);
   const shouldHighlightSelected = useSelector(
     tokenStore,
     (state) => state.shouldHighlightSelectedToken,
   );
+
+  const startId = useSelector(phraseModeStore, (state) => state.startId);
+  const endId = useSelector(phraseModeStore, (state) => state.endId);
 
   const {
     data: lessonData,
